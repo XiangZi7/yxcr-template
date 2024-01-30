@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxcr.bean.mapper.RolesMapper">
+
+    <resultMap id="BaseResultMap" type="com.yxcr.bean.pojo.Roles">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,description,
+        create_time,update_time
+    </sql>
+    <select id="selectRoleWithMenus" resultType="com.yxcr.bean.dto.RoleMenuDto">
+        SELECT roles.id                                                            AS roleId,
+               roles.name                                                          AS roleName,
+               GROUP_CONCAT(role_menu_permissions.menu_id ORDER BY menu.order_num) as menuLists
+        FROM yx_sys_roles AS roles
+                 LEFT JOIN
+             yx_sys_role_menu_permissions AS role_menu_permissions ON roles.id = role_menu_permissions.role_id
+                 LEFT JOIN
+             yx_sys_menu AS menu ON role_menu_permissions.menu_id = menu.id
+        WHERE roles.id = #{roleId}
+        GROUP BY roles.id
+    </select>
+</mapper>
