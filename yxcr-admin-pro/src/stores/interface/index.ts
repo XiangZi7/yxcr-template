@@ -1,33 +1,18 @@
-import { StateTree } from "pinia";
+export type LayoutType = "vertical" | "classic" | "transverse" | "columns";
 
-export interface Track {
-  id: string;
-  title: string;
-  singer: string;
-  album: string;
-  cover: string;
-  source: string;
-  time: number;
-  mv: string;
-  Lyric?: {
-    lrc?: string;
-    tlyric?: string;
-  };
-}
+export type AssemblySizeType = "large" | "default" | "small";
 
-export interface MusicState extends StateTree {
-  count: number;
-  trackList: Track[];
-  currentIndex: number;
-}
+export type LanguageType = "zh" | "en" | null;
 
 export interface userModel {
   avatarUrl?: string;
   nickname?: string;
   userId?: number;
 }
+
 export interface UserState {
   userInfo: userModel;
+  token: string;
 }
 
 // setting
@@ -35,8 +20,25 @@ export interface SettingState {
   loadLyric: boolean;
 }
 
-// 使用 IThemeConfig 接口
+/**
+ * themeStore的实体类
+ */
 export interface ThemeState {
+  layout: LayoutType;
+  assemblySize: AssemblySizeType;
+  language: LanguageType;
+  maximize: boolean;
   primary: string;
   isDark: boolean;
+  isGrey: boolean;
+  isWeak: boolean;
+  asideInverted: boolean;
+  headerInverted: boolean;
+  isCollapse: boolean;
+  accordion: boolean;
+  breadcrumb: boolean;
+  breadcrumbIcon: boolean;
+  tabs: boolean;
+  tabsIcon: boolean;
+  footer: boolean;
 }
