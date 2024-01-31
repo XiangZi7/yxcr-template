@@ -1,1 +1,0 @@
-# yxcr-template
