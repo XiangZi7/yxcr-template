@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,10 @@ import org.apache.ibatis.mapping.FetchType;
 
 /**
  * 后台管理系统动态菜单表
+ *
  * @TableName yx_sys_menu
  */
-@TableName(value ="yx_sys_menu")
+@TableName(value = "yx_sys_menu")
 @Data
 public class Menu implements Serializable {
     /**
@@ -44,7 +46,10 @@ public class Menu implements Serializable {
      * 菜单路由路径
      */
     private String path;
-
+    /**
+     * 菜单路由name
+     */
+    private String name;
     /**
      * 前端Vue组件路径
      */
@@ -67,8 +72,6 @@ public class Menu implements Serializable {
     @TableField(value = "permission")
     private String permission;
 
-//    @TableField(exist = false)
-//    private List<Menu> children;
 
     // 自关联，一个菜单可以有多个子菜单
     @TableField(exist = false)
@@ -77,11 +80,24 @@ public class Menu implements Serializable {
     // 自关联，一个菜单只有一个父菜单
     @TableField(exist = false)
     private Menu parent;
-    // 为构建菜单树添加子菜单
-    public void addChildMenu(Menu child) {
-        this.children.add(child);
-        child.setParent(this);
-    }
+    /**
+     * 路由菜单元信息
+     */
+    private String meta;
+    /**
+     * 当前路由是否缓存 0：否 1：是
+     */
+    private int isKeepAlive;
+    /**
+     * 路由重定向地址
+     */
+    private String redirect;
+    /**
+     * 是否全屏
+     */
+    private int isFull;
+
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -98,14 +114,14 @@ public class Menu implements Serializable {
         }
         Menu other = (Menu) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
-            && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
-            && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
-            && (this.getPath() == null ? other.getPath() == null : this.getPath().equals(other.getPath()))
-            && (this.getComponent() == null ? other.getComponent() == null : this.getComponent().equals(other.getComponent()))
-            && (this.getOrderNum() == null ? other.getOrderNum() == null : this.getOrderNum().equals(other.getOrderNum()))
-            && (this.getVisible() == null ? other.getVisible() == null : this.getVisible().equals(other.getVisible()))
-            && (this.getPermission() == null ? other.getPermission() == null : this.getPermission().equals(other.getPermission()));
+                && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
+                && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
+                && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
+                && (this.getPath() == null ? other.getPath() == null : this.getPath().equals(other.getPath()))
+                && (this.getComponent() == null ? other.getComponent() == null : this.getComponent().equals(other.getComponent()))
+                && (this.getOrderNum() == null ? other.getOrderNum() == null : this.getOrderNum().equals(other.getOrderNum()))
+                && (this.getVisible() == null ? other.getVisible() == null : this.getVisible().equals(other.getVisible()))
+                && (this.getPermission() == null ? other.getPermission() == null : this.getPermission().equals(other.getPermission()));
     }
 
     @Override

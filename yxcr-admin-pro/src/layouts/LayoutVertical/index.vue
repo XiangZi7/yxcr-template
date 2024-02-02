@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import ToolBarLeft from "@/layouts/components/Header/left.vue";
 import ToolBarRight from "@/layouts/components/Header/right.vue";
+import RecursiveMenu from "@/layouts/components/Aside/RecursiveMenu.vue";
+import Tabs from "@/layouts/components/Tabs/index.vue";
 
 const route = useRoute();
 const themeStore = useThemeStore();
-
+const auth = useAuthStore();
 // 折叠菜单
 const isCollapse = computed(() => themeStore.isCollapse);
 // 当前菜单
@@ -13,15 +15,20 @@ const activeMenu = computed(
 );
 // 手风琴模式
 const accordion = computed(() => themeStore.accordion);
+// 菜单栏
+const MenuBar = computed(() => auth.authMenuList);
 </script>
 <template>
   <el-container class="min-w-[600px] w-full h-full">
-    <el-header class="bg-[var(--el-bg-color)] shadow" style="border-bottom: 1px solid var(--el-border-color-light);">
+    <el-header
+      class="bg-[var(--el-header-bg-color)] shadow"
+      style="border-bottom: 1px solid var(--el-border-color-light)"
+    >
       <div
         class="flex justify-between items-center h-full text-[var(--el-header-text-color)]"
       >
-        <ToolBarLeft/>
-        <ToolBarRight/>
+        <ToolBarLeft />
+        <ToolBarRight />
       </div>
     </el-header>
     <el-container class="mt-2">
@@ -38,25 +45,17 @@ const accordion = computed(() => themeStore.accordion);
               :unique-opened="accordion"
               :collapse-transition="false"
             >
-              <el-sub-menu index="1">
-                <template #title>
-                  <el-icon>
-                    <Message/>
-                  </el-icon>
-                  <span class="overflow-hidden overflow-ellipsis text-nowrap">
-                    导航一
-                  </span>
-                </template>
-                <el-menu-item index="1-1">选项1</el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-              </el-sub-menu>
+              <recursive-menu :menu-data="MenuBar" />
             </el-menu>
           </el-scrollbar>
         </div>
       </el-aside>
-      <el-main class="bg-[var(--el-bg-color)] shadow rounded-xl ml-3 mr-3 mb-2 theme-border">
-        <router-view/>
-      </el-main>
+      <div class="flex flex-col flex-1 ml-3 mr-3 mb-2">
+        <Tabs class="bg-[var(--el-bg-color)]" />
+        <el-main class="bg-[var(--el-bg-color)] shadow rounded-xl theme-border">
+          <router-view />
+        </el-main>
+      </div>
     </el-container>
   </el-container>
 </template>

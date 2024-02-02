@@ -1,7 +1,9 @@
-import {ElMessage} from "element-plus";
+import { ElMessage } from "element-plus";
 import { headerTheme } from "@/style/theme/header";
 import { menuTheme } from "@/style/theme/menu";
 import { asideTheme } from "@/style/theme/aside";
+import { Theme } from "@/hooks/interface";
+
 /**
  * @description 切换主题
  * */
@@ -53,7 +55,7 @@ export const useTheme = () => {
     if (!value) return body.removeAttribute("style");
     const styles: Record<Theme.GreyOrWeakType, string> = {
       grey: "filter: grayscale(1)",
-      weak: "filter: invert(80%)"
+      weak: "filter: invert(80%)",
     };
     body.setAttribute("style", styles[type]);
     const propName = type === "grey" ? "isWeak" : "isGrey";
@@ -84,8 +86,10 @@ export const useTheme = () => {
   // 设置菜单样式
   const setMenuTheme = () => {
     let type: Theme.ThemeType = "light";
-    if (themeStore.layout === "transverse" && themeStore.headerInverted) type = "inverted";
-    if (themeStore.layout !== "transverse" && themeStore.asideInverted) type = "inverted";
+    if (themeStore.layout === "transverse" && themeStore.headerInverted)
+      type = "inverted";
+    if (themeStore.layout !== "transverse" && themeStore.asideInverted)
+      type = "inverted";
     if (themeStore.isDark) type = "dark";
     const theme = menuTheme[type!];
     for (const [key, value] of Object.entries(theme)) {
@@ -105,6 +109,6 @@ export const useTheme = () => {
     changePrimary,
     changeGreyOrWeak,
     setAsideTheme,
-    setHeaderTheme
+    setHeaderTheme,
   };
 };

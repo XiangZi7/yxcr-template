@@ -3,6 +3,7 @@ package com.yxcr.admin.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import com.yxcr.admin.utils.MenuUtils;
+import com.yxcr.bean.dto.MenuDto;
 import com.yxcr.bean.dto.RoleMenuDto;
 import com.yxcr.bean.mapper.RoleMenuPermissionsMapper;
 import com.yxcr.bean.pojo.Menu;
@@ -78,8 +79,8 @@ public class AdminLoginController {
 
     @GetMapping("/permission")
     public ApiResult<?> permission() {
-        List<Menu> menuList = MenuUtils.getMenuTree(menuService.list());
-        return ApiResult.ok(menuList);
+        List<MenuDto> menuTree = MenuUtils.getMenuTree(menuService.list());
+        return ApiResult.ok(menuTree);
     }
 
     @GetMapping("/userPermission")

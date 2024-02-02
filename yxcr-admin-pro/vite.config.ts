@@ -3,10 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import VueRouter from "unplugin-vue-router/vite";
 import viteCompression from "vite-plugin-compression";
-import { VueRouterAutoImports } from 'unplugin-vue-router'
 
 // eslint
 import eslintPlugin from "vite-plugin-eslint";
@@ -20,22 +17,9 @@ import IconsResolver from "unplugin-icons/resolver";
  */
 export default defineConfig({
   plugins: [
-    VueRouter({
-      // 自动生成路由的文件夹
-      routesFolder: "src/pages",
-      // 生成路由的扩展名
-      exclude: ["**/components/*.vue"],
-      extensions: [".vue"],
-      // 生成类型的路径
-      // 可以通过设置 false 来禁用.
-      dts: "src/auto-import/typed-router.d.ts",
-      // 更改页面组件的导入方式，可以是“异步”、“同步”或函数:
-      // (filepath: string) => 'async' | 'sync'
-      importMode: "async",
-    }),
     vue(),
     AutoImport({
-      imports: ["vue", VueRouterAutoImports],
+      imports: ["vue", "vue-router"],
       dirs: ["src/utils/**", "src/stores/modules/**", "src/hooks/**"],
       dts: "src/auto-import/imports.d.ts",
       eslintrc: {
@@ -43,7 +27,6 @@ export default defineConfig({
         filepath: "src/auto-import/eslintrc-auto-import.json",
       },
       resolvers: [
-        ElementPlusResolver(),
         // 自动导入图标组件
         IconsResolver(),
       ],
@@ -52,7 +35,6 @@ export default defineConfig({
       dirs: ["src/components"],
       dts: "src/auto-import/components.d.ts",
       resolvers: [
-        ElementPlusResolver(),
         // 自动注册图标组件
         IconsResolver(),
       ],

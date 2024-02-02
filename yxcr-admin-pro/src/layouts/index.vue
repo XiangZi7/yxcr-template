@@ -17,5 +17,5 @@ const layout = computed(() => themeStore.layout);
 </script>
 <template>
   <component :is="LayoutComponents[layout]" />
-    <ThemeDrawer/>
+  <ThemeDrawer />
 </template>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ThemeState } from "../interface";
+import { StateType, ThemeState } from "../interface";
 import piniaPersistConfig from "@/config/piniaPersist";
 
 /**
@@ -18,7 +18,7 @@ export const useThemeStore = defineStore({
       // 当前页面是否全屏
       maximize: false,
       // 主题颜色
-      primary:"#409EFF",
+      primary: "#409EFF",
       // 深色模式
       isDark: false,
       // 灰色模式
@@ -32,7 +32,7 @@ export const useThemeStore = defineStore({
       // 折叠菜单
       isCollapse: false,
       // 菜单手风琴
-      accordion: true,
+      accordion: false,
       // 面包屑导航
       breadcrumb: true,
       // 面包屑导航图标
@@ -42,14 +42,14 @@ export const useThemeStore = defineStore({
       // 标签页图标
       tabsIcon: true,
       // 页脚
-      footer: true
+      footer: true,
     };
   },
   actions: {
     // Set GlobalState
-    setThemeState(...args: ObjToKeyValArray<GlobalState>) {
-      this.$patch({ [args[0]]: args[1] });
-    }
+    setThemeState<K extends keyof StateType>(key: K, value: StateType[K]) {
+      this.$patch({ [key]: value });
+    },
   },
-  persist: piniaPersistConfig("useThemeStore"),
+  persist: piniaPersistConfig("themeStore"),
 });
