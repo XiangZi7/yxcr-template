@@ -25,7 +25,7 @@
       }
     }
     :deep(.el-tabs) {
-      .el-tabs__nav-wrap::after{
+      .el-tabs__nav-wrap::after {
         background-color: transparent;
       }
       .el-tabs__header {
@@ -45,7 +45,7 @@
               align-items: center;
               justify-content: center;
               color: #afafaf;
-              padding:0 10px;
+              padding: 0 10px;
               border: none;
               .tabs-icon {
                 margin: 1.5px 4px 0 0;

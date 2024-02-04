@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import MoreButton from "./components/MoreButton.vue";
+
 import { TabsPaneContext, TabPaneName } from "element-plus";
 
 const route = useRoute();
@@ -62,6 +64,7 @@ function tabRemove(fullPath: TabPaneName) {
           </template>
         </el-tab-pane>
       </el-tabs>
+      <MoreButton/>
     </div>
   </div>
 </template>

@@ -25,7 +25,7 @@ export const initDynamicRouter = async () => {
       router.replace("/login");
       return Promise.reject("No permission");
     }
-    //动态添加路由
+    // 动态添加路由
     authStore.flatMenuListGet.forEach((item) => {
       item.children && delete item.children;
       if (item.component && typeof item.component == "string") {

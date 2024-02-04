@@ -22,3 +22,4 @@ export declare namespace Menu {
     isKeepAlive: boolean;
   }
 }
+

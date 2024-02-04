@@ -103,5 +103,4 @@ export interface TabsMenuProps {
   title: string;
   path: string;
   name: string;
-  close: boolean;
 }

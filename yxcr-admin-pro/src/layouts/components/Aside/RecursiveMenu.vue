@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { MenuEntry } from "@/layouts/components/interface";
-import { Menu } from "@/utils/interface";
 
-type Props = {
-  menuData?: MenuEntry;
-};
+interface Props {
+    menuData?: MenuEntry[]; // 假设 menuData 是 MenuEntry 类型的数组
+}
 const props = withDefaults(defineProps<Props>(), {
-  menuData: () => ({}),
+    menuData: () => [] as MenuEntry[], // 赋予默认值，并断言为空的 MenuEntry 类型数组
 });
 const { menuData } = toRefs(props);
 
 const router = useRouter();
 const tabsStore = useTabsStore();
-const handleClickMenu = (subItem: Menu.MenuOptions) => {
+const handleClickMenu = (subItem: MenuEntry) => {
   router.push(subItem.path);
   const { path, meta, name } = subItem;
   const { title, icon } = meta;
@@ -20,7 +19,6 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 };
 </script>
 <template>
-  <div>
     <template v-for="subItem in menuData" :key="subItem.path">
       <el-sub-menu v-if="subItem.children?.length" :index="subItem.path">
         <template #title>
@@ -44,5 +42,4 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
         </template>
       </el-menu-item>
     </template>
-  </div>
 </template>

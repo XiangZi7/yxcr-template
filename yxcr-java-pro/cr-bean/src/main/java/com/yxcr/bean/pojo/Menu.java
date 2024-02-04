@@ -41,6 +41,10 @@ public class Menu implements Serializable {
      * 菜单图标
      */
     private String icon;
+    /**
+     * 类型   0：目录   1：菜单   2：按钮
+     */
+    private Integer type;
 
     /**
      * 菜单路由路径
@@ -68,7 +72,6 @@ public class Menu implements Serializable {
     /**
      * 权限标识，用于权限控制
      */
-    @JsonIgnore
     @TableField(value = "permission")
     private String permission;
 
@@ -78,12 +81,9 @@ public class Menu implements Serializable {
     private List<Menu> children = new ArrayList<>();
 
     // 自关联，一个菜单只有一个父菜单
+    @JsonIgnore
     @TableField(exist = false)
     private Menu parent;
-    /**
-     * 路由菜单元信息
-     */
-    private String meta;
     /**
      * 当前路由是否缓存 0：否 1：是
      */

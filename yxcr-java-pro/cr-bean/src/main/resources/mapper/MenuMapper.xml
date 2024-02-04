@@ -17,7 +17,6 @@
             <result property="isFull" column="is_full" jdbcType="INTEGER"/>
             <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
             <result property="isKeepAlive" column="is_keep_alive" jdbcType="INTEGER"/>
-            <result property="meta" column="meta" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">

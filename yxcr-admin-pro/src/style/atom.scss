@@ -1,4 +1,3 @@
-
 .yx-col-4 {
   display: block;
   flex: 0 0 16.666666666666664%;
@@ -36,11 +35,10 @@
 }
 
 .text-ellipsis {
-  text-overflow: ellipsis;   /* 使得超出容器的文本显示省略号 */
-  overflow: hidden;          /* 隐藏溢出容器的内容 */
-  white-space: nowrap;       /* 确保文本在一行内显示，不换行 */
+  text-overflow: ellipsis; /* 使得超出容器的文本显示省略号 */
+  overflow: hidden; /* 隐藏溢出容器的内容 */
+  white-space: nowrap; /* 确保文本在一行内显示，不换行 */
 }
-
 
 //过渡效果 observer_item的过渡效果
 .come-in {

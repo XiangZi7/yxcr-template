@@ -1,64 +1,103 @@
 <script setup lang="ts">
-const state = reactive({
+import AddOrUpdate from "./add-or-update.vue";
+import {getMenuTable} from "@/api";
+import {MenuData, MenuDataState} from "@/api/interface";
+import {Delete, View, Edit} from "@element-plus/icons";
+
+const addOrUpdateRef = ref();
+const state = reactive<MenuDataState>({
   list: [],
   column: [
     {prop: "title", label: "名称"},
     {prop: "icon", label: "图标", slot: "icon"},
-    {prop: "path", label: "菜单路由"},
-    {prop: "name", label: "菜单英文名称"},
-    {prop: "type", label: ""},
-    {prop: "orderNum", label: "序列号"},
+    {prop: "type", label: "类型", slot: "type"},
+    // {prop: "name", label: "菜单英文名称"},
+    {prop: "orderNum", label: "菜单排序"},
     {prop: "visible", label: "是否隐藏", slot: "visible"},
+    {prop: "path", label: "菜单路由"},
     {prop: "permission", label: "授权表示"},
-    {prop: "isKeepAlive", label: "是否缓存"},
+    {
+      prop: "operation",
+      slot: "operation",
+      label: "操作",
+      fixed: "right",
+      width: 250,
+    },
+    // {prop: "isKeepAlive", label: "是否缓存", slot: 'isKeepAlive'},
   ],
 });
 const {list, column} = toRefs(state);
 
 onMounted(() => {
-  httpGet("system/table").then((res) => {
-    state.list = res.data;
+  getMenuTable().then(({data}) => {
+    state.list = data;
   });
 });
+
+// 查看
+function openDrawer(title: string, row: MenuData) {
+  const idList = findParentIds(state.list, row.id)
+  if (idList&&idList.length>0){
+    idList.push(row.id)
+  }
+  addOrUpdateRef.value.acceptParam({...row, idList});
+  console.log()
+
+}
+
+function deleteAccount(index: number) {
+  console.log(index);
+}
 </script>
 
 <template>
-  <div>
-    <el-table :data="list" :tree-props="{ children: 'children' }" row-key="id">
-      <template v-for="item in column" :key="item.id">
-        <el-table-column
-            v-if="!item.slot"
-            :type="item.type"
-            :prop="item.prop"
-            :label="item.label"
-            :fixed="item.fixed || false"
-            :align="item.align ?? 'center'"
-            :width="item.width ?? ''"
-            :show-overflow-tooltip="true"
-        >
-        </el-table-column>
-
-        <el-table-column
-            v-else
-            :prop="item.prop"
-            :label="item.label"
-            :fixed="item.fixed || false"
-            :width="item.width || ''"
-            :align="item.align || 'center'"
-        >
-          <template #default="{ row }">
-            <template v-if="item.slot=='icon'">
-              <el-icon>
-                <component :is="row.icon"/>
-              </el-icon>
-            </template>
-            <template v-if="item.slot=='visible'">
-              <yx-select-pro :is-view="false" dict="y_n" v-model="row.visible"/>
-            </template>
-          </template>
-        </el-table-column>
+  <div class="w-full">
+    <div class="mb-3">
+      <el-button type="primary" @click="addOrUpdateRef.showDialog()">新增</el-button>
+    </div>
+    <table-pro :data="list" :columns="column">
+      <!--icon-->
+      <template #icon="{ row }">
+        <el-icon>
+          <component :is="row.icon"/>
+        </el-icon>
       </template>
-    </el-table>
+      <!--类型-->
+      <template #type="{ row }">
+        <yx-select-pro v-model="row.type" :is-view="false" dict="menu_type"/>
+      </template>
+      <!-- 是否隐藏-->
+      <template #visible="{ row }">
+        <yx-select-pro v-model="row.visible" :is-view="false" dict="y_n"/>
+      </template>
+      <template #operation="{ row }">
+        <el-button
+            type="primary"
+            link
+            :icon="View"
+            @click="openDrawer('查看', row)"
+        >
+          查看
+        </el-button>
+        <el-button
+            type="primary"
+            link
+            :icon="Edit"
+            @click="openDrawer('编辑', row)"
+        >编辑
+        </el-button
+        >
+        <el-button
+            type="primary"
+            link
+            :icon="Delete"
+            @click="deleteAccount(row)"
+        >删除
+        </el-button
+        >
+      </template>
+    </table-pro>
+    <add-or-update ref="addOrUpdateRef"/>
   </div>
 </template>
 <style lang="scss" scoped></style>

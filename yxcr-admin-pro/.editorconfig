@@ -1,8 +1,17 @@
+# 表明是最顶层的 EditorConfig 配置文件，后面的文件不再查找其他的 .editorconfig 文件
 root = true
+
+# 对于所有文件应用以下规则
 [*]
+# 设定文件字符集为 utf-8
 charset = utf-8
+# 设定缩进风格为 空格(space)
 indent_style = space
+# 设定缩进大小为2个空格
 indent_size = 2
+# 设定文件行尾字符为 lf (linefeed)，适用于Unix/Linux系统
 end_of_line = lf
+# 文件在保存的时候会在文件的最后一行后加上一个新的行
 insert_final_newline = true
+# 去除行尾的任意空白字符
 trim_trailing_whitespace = true
