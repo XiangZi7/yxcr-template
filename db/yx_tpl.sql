@@ -11,7 +11,7 @@
  Target Server Version : 80100
  File Encoding         : 65001
 
- Date: 02/02/2024 17:39:56
+ Date: 05/02/2024 14:38:10
 */
 
 SET NAMES utf8mb4;
@@ -27,13 +27,16 @@ CREATE TABLE `yx_sys_dict`  (
   `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'lable',
   `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'value',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of yx_sys_dict
 -- ----------------------------
 INSERT INTO `yx_sys_dict` VALUES (1, 'y_n', '是', '1');
 INSERT INTO `yx_sys_dict` VALUES (2, 'y_n', '否', '0');
+INSERT INTO `yx_sys_dict` VALUES (3, 'menu_type', '目录', '0');
+INSERT INTO `yx_sys_dict` VALUES (4, 'menu_type', '菜单', '1');
+INSERT INTO `yx_sys_dict` VALUES (5, 'menu_type', '按钮', '2');
 
 -- ----------------------------
 -- Table structure for yx_sys_menu
@@ -47,7 +50,6 @@ CREATE TABLE `yx_sys_menu`  (
   `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '菜单路由路径',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '路由name',
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '类型   0：目录   1：菜单   2：按钮',
-  `meta` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '路由菜单元信息',
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '前端Vue组件路径',
   `order_num` int NULL DEFAULT 0 COMMENT '菜单排序顺序',
   `visible` tinyint(1) NULL DEFAULT 1 COMMENT '菜单是否可见, 1为可见，0为不可见',
@@ -56,22 +58,24 @@ CREATE TABLE `yx_sys_menu`  (
   `redirect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '路由重定向地址',
   `is_full` tinyint(1) NULL DEFAULT NULL COMMENT '是否全屏',
   PRIMARY KEY (`id`) USING BTREE COMMENT '主键'
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '后台管理系统动态菜单表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '后台管理系统动态菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of yx_sys_menu
 -- ----------------------------
-INSERT INTO `yx_sys_menu` VALUES (1, NULL, '首页', 'HomeFilled', '/home/index', 'home', '0', NULL, '/home/index', 1, 1, 'dashboard:view', NULL, '', 0);
-INSERT INTO `yx_sys_menu` VALUES (3, NULL, '用户管理', 'User', '/users', 'user', '0', NULL, '/home/index', 2, 1, 'users:manage', NULL, '/users/list', 0);
-INSERT INTO `yx_sys_menu` VALUES (4, 3, '用户列表', 'list', '/users/list', 'userlist', '1', NULL, '/home/index', 1, 1, 'users:list:view', NULL, NULL, 0);
-INSERT INTO `yx_sys_menu` VALUES (5, 3, '创建用户', 'add', '/users/create', 'usercreate', '1', NULL, '/home/index', 2, 1, 'users:create', NULL, NULL, 0);
-INSERT INTO `yx_sys_menu` VALUES (6, 3, '删除用户', NULL, '/settings/personal', 'settingspersonal', '2', NULL, '/settings/personal', NULL, 0, 'users:delete', NULL, NULL, 0);
-INSERT INTO `yx_sys_menu` VALUES (7, NULL, '系统', 'Setting', '/system', 'settings', '0', NULL, '/home/index', 3, 1, 'settings:manage', NULL, NULL, 0);
-INSERT INTO `yx_sys_menu` VALUES (8, 11, '应用设置', 'Avatar', '/settings/application', 'application', '2', NULL, '/home/index', 1, 1, 'settings:app:view', NULL, NULL, 0);
-INSERT INTO `yx_sys_menu` VALUES (9, 11, '个人设置', 'Apple', '/settings/personal', 'personal', '2', NULL, '/PersonalSettings', 2, 1, 'settings:personal:view', NULL, NULL, 0);
-INSERT INTO `yx_sys_menu` VALUES (10, 11, '修改密码', NULL, '/setings/updatepwd', 'updatepwd', '2', NULL, '/setings/updatepwd', NULL, 0, 'settings:password:change', NULL, NULL, 0);
-INSERT INTO `yx_sys_menu` VALUES (11, 7, '系统设置', NULL, '/setings/updatepwd', 'updatepwd', '1', NULL, '/setings/updatepwd', 0, 1, NULL, NULL, NULL, 0);
-INSERT INTO `yx_sys_menu` VALUES (12, 11, '菜单管理', NULL, '/system/setting/menu', 'menu', '2', NULL, '/system/menu/index', 0, 1, NULL, NULL, NULL, 0);
+INSERT INTO `yx_sys_menu` VALUES (1, NULL, '首页', 'HomeFilled', '/home/index', 'home', '0', '/home/index', 1, 1, 'dashboard:view', NULL, '', 0);
+INSERT INTO `yx_sys_menu` VALUES (3, NULL, '用户管理', 'User', '/users', 'user', '0', '/home/index', 2, 1, 'users:manage', NULL, '/users/list', 0);
+INSERT INTO `yx_sys_menu` VALUES (4, 3, '用户列表', 'list', '/users/list', 'userlist', '1', '/home/index', 1, 1, 'users:list:view', NULL, NULL, 0);
+INSERT INTO `yx_sys_menu` VALUES (5, 3, '创建用户', 'add', '/users/create', 'usercreate', '1', '/home/index', 2, 1, 'users:create', NULL, NULL, 0);
+INSERT INTO `yx_sys_menu` VALUES (6, 3, '删除用户', NULL, '/settings/personal', 'settingspersonal', '2', '/settings/personal', NULL, 0, 'users:delete', NULL, NULL, 0);
+INSERT INTO `yx_sys_menu` VALUES (7, 11, '组织架构', 'FolderOpened', '/system/permission', 'permission', '0', '/system/permission', 1, 1, '', 0, '', 0);
+INSERT INTO `yx_sys_menu` VALUES (8, 11, '应用设置', 'Avatar', '/settings/application', 'application', '1', '/home/index', 1, 1, 'settings:app:view', NULL, NULL, 0);
+INSERT INTO `yx_sys_menu` VALUES (9, 11, '个人设置', 'Apple', '/settings/personal', 'personal', '1', '/PersonalSettings', 2, 1, 'settings:personal:view', NULL, NULL, 0);
+INSERT INTO `yx_sys_menu` VALUES (10, 11, '修改密码', NULL, '/setings/updatepwd', 'updatepwd', '1', '/setings/updatepwd', NULL, 0, 'settings:password:change', NULL, NULL, 0);
+INSERT INTO `yx_sys_menu` VALUES (11, NULL, '系统', '', '/system/setting', '/setting', '0', '/system/setting', 1, 1, '', 0, '', 0);
+INSERT INTO `yx_sys_menu` VALUES (12, 11, '菜单管理', NULL, '/system/menu', NULL, '1', '/system/menu/index', 0, 1, NULL, NULL, NULL, 0);
+INSERT INTO `yx_sys_menu` VALUES (51, NULL, '我是测试', '', '222', '222', '0', '222', 1, 1, '', 0, '', 0);
+INSERT INTO `yx_sys_menu` VALUES (52, NULL, '我是测试哦222', '', '/tes', 'tes', '1', '/tes', 1, 1, '', 0, '', 0);
 
 -- ----------------------------
 -- Table structure for yx_sys_role_menu_permissions
