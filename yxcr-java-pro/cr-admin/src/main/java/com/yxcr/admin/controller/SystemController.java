@@ -1,6 +1,7 @@
 package com.yxcr.admin.controller;
 
 import com.yxcr.admin.utils.MenuUtils;
+import com.yxcr.bean.dto.IdDTO;
 import com.yxcr.bean.pojo.Menu;
 import com.yxcr.bean.service.MenuService;
 import com.yxcr.common.model.ApiResult;
@@ -18,6 +19,7 @@ import static com.yxcr.common.utils.textUtils.getLastPartOfUrl;
 @Tag(name = "系统设置")
 @RequestMapping("/system")
 public class SystemController {
+    private static final Integer NEW_MENU_ID = -1;
 
     private final MenuService menuService;
 
@@ -33,14 +35,13 @@ public class SystemController {
     public ApiResult<?> menu(@RequestBody Menu menu) {
         String lastName = getLastPartOfUrl(menu.getPath());
         menu.setName(lastName);
-        if (menu.getId() == null) {
-            menuService.save(menu);
-            return ApiResult.ok("新增成功");
-        }else{
-            menu.setParentId(menu.getId());
-            menu.setId(null);
-            menuService.save(menu);
-            return ApiResult.ok("新增失败");
-        }
+        return ApiResult.ok("新增成功");
+    }
+
+    @PostMapping("/menuDelete")
+    @Operation(summary = "菜单删除", description = "菜单删除")
+    public ApiResult<?> menuDelete(@RequestBody IdDTO idDTO) {
+        menuService.removeByIds(idDTO.getId());
+        return ApiResult.ok("删除成功");
     }
 }

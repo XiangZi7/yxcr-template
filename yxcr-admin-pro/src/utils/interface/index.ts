@@ -23,3 +23,10 @@ export declare namespace Menu {
   }
 }
 
+// idList
+export interface Node {
+  id: number;
+  parentId: number | null;
+  title?: string;
+  children?: Node[];
+}

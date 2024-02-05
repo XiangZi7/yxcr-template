@@ -64,7 +64,7 @@ function tabRemove(fullPath: TabPaneName) {
           </template>
         </el-tab-pane>
       </el-tabs>
-      <MoreButton/>
+      <MoreButton />
     </div>
   </div>
 </template>

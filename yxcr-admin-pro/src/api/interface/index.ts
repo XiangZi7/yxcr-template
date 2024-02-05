@@ -1,42 +1,47 @@
 // 请求响应参数（不包含data）
 export interface Result {
-    code: string;
-    message: string;
-    time: string;
+  code: number;
+  message: string;
+  time: string;
 }
 
 // 请求响应参数（包含data）
 export interface ResultData<T = any> extends Result {
-    data?: T;
+  data?: T;
 }
 
 // MenuData
 export interface MenuDataState {
-    list: MenuData[];
-    column: TableColumn[];
+  list: MenuData[];
+  column: TableColumn[];
 }
 
 export interface MenuData {
-    id: number | string
-    title: string;
-    icon: string;
-    path: string;
-    name: string;
-    type?: string;
-    orderNum: number;
-    visible: boolean;
-    permission: string;
-    isKeepAlive: boolean;
-    children?: MenuData[];
+  id: number;
+  parentId: number | null;
+  title: string;
+  icon: string;
+  path: string;
+  name: string;
+  type: number;
+  orderNum: number;
+  visible: number;
+  permission: string;
+  isKeepAlive: number;
+  children?: MenuData[];
+  component: string;
+  redirect: string;
 }
 
 // TableColumn 类型定义
 export interface TableColumn {
-    prop?: string;
-    label?: string;
-    slot?: string;
-    type?: string;
-    fixed?: string;
-    align?: string;
-    width?: string | number;
+  prop?: string;
+  label?: string;
+  slot?: string;
+  type?: string;
+  fixed?: string;
+  align?: string;
+  width?: string | number;
 }
+
+//菜单栏上传参数

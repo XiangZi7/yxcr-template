@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AddOrUpdate from "./add-or-update.vue";
-import {getMenuTable} from "@/api";
+import {getMenuTable, systemMenuDelete} from "@/api";
 import {MenuData, MenuDataState} from "@/api/interface";
 import {Delete, View, Edit} from "@element-plus/icons";
 
@@ -8,7 +8,7 @@ const addOrUpdateRef = ref();
 const state = reactive<MenuDataState>({
   list: [],
   column: [
-    {prop: "title", label: "名称"},
+    {prop: "title", label: "名称", align: "left"},
     {prop: "icon", label: "图标", slot: "icon"},
     {prop: "type", label: "类型", slot: "type"},
     // {prop: "name", label: "菜单英文名称"},
@@ -36,29 +36,48 @@ onMounted(() => {
 
 // 查看
 function openDrawer(title: string, row: MenuData) {
-  const idList = findParentIds(state.list, row.id)
-  if (idList&&idList.length>0){
-    idList.push(row.id)
+  const idList = findParentIds(state.list, row.id);
+  if (idList && idList.length > 0) {
+    if (typeof row.id === "number") {
+      idList.push(row.id);
+    }
   }
-  addOrUpdateRef.value.acceptParam({...row, idList});
-  console.log()
-
+  addOrUpdateRef.value.acceptParam({
+    title,
+    dataForm: row,
+    idList,
+    disabled: title == "查看" ? true : false,
+  });
 }
 
-function deleteAccount(index: number) {
-  console.log(index);
+// 删除目录
+function deleteData(id: number) {
+  systemMenuDelete(id).then(({data, code}) => {
+    messagePro(code, data)
+    ResultOk()
+  })
+}
+
+// 更新新增或修改数据
+function ResultOk() {
+  getMenuTable().then(({data}) => {
+    state.list = data;
+  });
 }
 </script>
 
 <template>
   <div class="w-full">
     <div class="mb-3">
-      <el-button type="primary" @click="addOrUpdateRef.showDialog()">新增</el-button>
+      <el-button type="primary" @click="addOrUpdateRef.showDialog()"
+      >新增
+      </el-button
+      >
     </div>
     <table-pro :data="list" :columns="column">
       <!--icon-->
       <template #icon="{ row }">
-        <el-icon>
+        <el-icon v-if="row.icon">
           <component :is="row.icon"/>
         </el-icon>
       </template>
@@ -85,19 +104,17 @@ function deleteAccount(index: number) {
             :icon="Edit"
             @click="openDrawer('编辑', row)"
         >编辑
-        </el-button
-        >
+        </el-button>
         <el-button
             type="primary"
             link
             :icon="Delete"
-            @click="deleteAccount(row)"
+            @click="deleteData(row.id)"
         >删除
-        </el-button
-        >
+        </el-button>
       </template>
     </table-pro>
-    <add-or-update ref="addOrUpdateRef"/>
+    <add-or-update ref="addOrUpdateRef" @result-ok="ResultOk"/>
   </div>
 </template>
 <style lang="scss" scoped></style>

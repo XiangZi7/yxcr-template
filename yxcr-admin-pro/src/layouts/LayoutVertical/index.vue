@@ -53,7 +53,7 @@ const MenuBar = computed(() => auth.authMenuList);
         </div>
       </el-aside>
       <div class="flex flex-col flex-1 ml-3 mr-3 mb-2">
-        <Tabs class="bg-[var(--el-bg-color)]" v-show="tabs" />
+        <Tabs v-show="tabs" class="bg-[var(--el-bg-color)]" />
         <el-main class="bg-[var(--el-bg-color)] shadow rounded-xl theme-border">
           <router-view />
         </el-main>

@@ -7,45 +7,43 @@
       <el-dropdown-menu>
         <el-dropdown-item>
           <el-icon>
-            <Refresh/>
+            <Refresh />
           </el-icon>
           刷新
         </el-dropdown-item>
         <el-dropdown-item>
           <el-icon>
-            <FullScreen/>
+            <FullScreen />
           </el-icon>
           最大化
         </el-dropdown-item>
         <el-dropdown-item divided>
           <el-icon>
-            <Remove/>
+            <Remove />
           </el-icon>
           关闭当前
         </el-dropdown-item>
-        <el-dropdown-item
-        >
+        <el-dropdown-item>
           <el-icon>
-            <DArrowLeft/>
+            <DArrowLeft />
           </el-icon>
           关闭左边
         </el-dropdown-item>
-        <el-dropdown-item
-        >
+        <el-dropdown-item>
           <el-icon>
-            <DArrowRight/>
+            <DArrowRight />
           </el-icon>
           关闭右边
         </el-dropdown-item>
         <el-dropdown-item divided>
           <el-icon>
-            <CircleClose/>
+            <CircleClose />
           </el-icon>
           关闭其他
         </el-dropdown-item>
         <el-dropdown-item>
           <el-icon>
-            <FolderDelete/>
+            <FolderDelete />
           </el-icon>
           关闭全部
         </el-dropdown-item>
@@ -54,9 +52,7 @@
   </el-dropdown>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 @import "../index.scss";

@@ -1,3 +1,5 @@
+import { ElNotification } from "element-plus";
+
 /**
  * @description 消息提醒的封装
  * @param code 请求码

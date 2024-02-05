@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import {getMenuTable} from "@/api";
+import {getMenuTable, systemMenu} from "@/api";
 import {FormInstance} from "element-plus";
-import {AddOrUpdateState, FormSchema} from "@/pages/system/menu/interce";
+import {
+  acceptParamModel,
+  AddOrUpdateState,
+} from "@/pages/system/menu/interce";
+import {useCloned} from '@vueuse/core'
 
 const dataFormRef = ref();
 
@@ -22,7 +26,10 @@ const typeList = [
 
 const state = reactive<AddOrUpdateState>({
   visible: false,
+  disabled: false,
   dataForm: {
+    id: -1,
+    parentId: null,
     type: 0,
     visible: 1,
     orderNum: 1,
@@ -33,12 +40,14 @@ const state = reactive<AddOrUpdateState>({
     title: "",
     component: "",
     isKeepAlive: 0,
-    redirect: ""
+    redirect: "",
   },
   dataRule: {
     title: [{required: true, message: "请输入名称", trigger: "blur"}],
     path: [{required: true, message: "请输入路由菜单路径", trigger: "blur"}],
-    component: [{required: true, message: "请输入前端组件路径", trigger: "blur"}],
+    component: [
+      {required: true, message: "请输入前端组件路径", trigger: "blur"},
+    ],
   },
   cascaderOptions: [],
   cascaderProps: {
@@ -49,6 +58,8 @@ const state = reactive<AddOrUpdateState>({
   },
   //菜单栏ID
   selectedMenu: [],
+  //标题
+  title: ""
 });
 const {
   visible,
@@ -57,36 +68,84 @@ const {
   cascaderOptions,
   cascaderProps,
   selectedMenu,
+  disabled,
+  title
 } = toRefs(state);
-const props = defineProps({
-  title: {
-    type: String,
-    default: "",
-  },
-});
+const Emits = defineEmits(["ResultOk"]);
 onMounted(() => {
   getMenuTable().then(({data}) => {
     state.cascaderOptions = data;
   });
 });
 
-function acceptParam(params:FormSchema) {
-  state.dataForm = params
-  state.selectedMenu = params.idList
+// 接受父组件传递过来的菜单参数
+function acceptParam(params: acceptParamModel) {
+  const {cloned} = useCloned(params)
+
+  if (cloned.value.dataForm.children && cloned.value.dataForm.children.length > 0) {
+    // 如果 children 存在且长度大于0，执行删除操作
+    delete cloned.value.dataForm.children;
+  }
+  state.dataForm = cloned.value.dataForm;
+  state.selectedMenu = cloned.value.idList;
+  state.disabled = cloned.value.disabled;
   state.visible = true;
+  state.title = cloned.value.title;
 }
 
+const currentName = computed(() => typeList[state.dataForm.type].title);
+
+// 弹出对话框
 function showDialog() {
-  state.visible = true
+  state.disabled = false;
+  state.visible = true;
+  state.title = "新增"
 }
+
+// 关闭对话框执行结束回调
+function formClose() {
+  // 还原数据
+  state.dataForm = {
+    id: -1,
+    parentId: null,
+    type: 0,
+    visible: 1,
+    orderNum: 1,
+    icon: "",
+    path: "",
+    permission: "",
+    name: "",
+    title: "",
+    component: "",
+    isKeepAlive: 0,
+    redirect: "",
+  };
+  state.selectedMenu = []
+  state.disabled = false;
+  state.title = ""
+
+}
+
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid) => {
     if (valid) {
-      httpPost("system/menu", {...state.dataForm, id: state.selectedMenu[state.selectedMenu.length - 1]}).then(({data}) => {
-        console.log(data)
-      })
+      const id = state.selectedMenu?.[state.selectedMenu.length - 1] ?? -1;
+      let params = {
+        ...state.dataForm,
+        id,
+      };
+      // 菜单数据提交或修改
+      systemMenu(params).then(({data, code}) => {
+        messagePro(code, data);
+        // 关闭窗口
+        if (code == 200) {
+          visible.value = false;
+
+          Emits("ResultOk");
+        }
+      });
     }
   });
 };
@@ -95,12 +154,13 @@ defineExpose({acceptParam, showDialog});
 <template>
   <el-dialog
       v-model="visible"
-      class="component-add-or-update"
-      :title="props.title"
+      :title="title"
+      @close="formClose"
       :close-on-click-modal="false"
   >
     <el-form
         ref="dataFormRef"
+        :disabled="disabled"
         :model="dataForm"
         :rules="dataRule"
         label-width="110px"
@@ -116,13 +176,19 @@ defineExpose({acceptParam, showDialog});
           </el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item required label="目录名称" prop="title">
-        <el-input v-model="dataForm.title" placeholder="目录名称"/>
+      <el-form-item required :label="currentName + '名称'" prop="title">
+        <el-input
+            v-model="dataForm.title"
+            :placeholder="currentName + '名称'"
+        />
       </el-form-item>
-      <el-form-item label="目录英文名称">
-        <el-input v-model="dataForm.name" placeholder="目录英文名称"/>
+      <el-form-item :label="currentName + '英文名称'">
+        <el-input
+            v-model="dataForm.name"
+            :placeholder="currentName + '英文名称'"
+        />
       </el-form-item>
-      <el-form-item label="上级菜单" v-if="dataForm.type!=0">
+      <el-form-item v-if="dataForm.type != 0" label="上级菜单">
         <el-cascader
             v-model="selectedMenu"
             :options="cascaderOptions"
@@ -138,22 +204,14 @@ defineExpose({acceptParam, showDialog});
             placeholder="授权标识:user:list,user:create"
         />
       </el-form-item>
-      <el-form-item
-          label="菜单路径"
-          prop="path"
-          required
-      >
+      <el-form-item label="菜单路径" prop="path" required>
         <el-input v-model="dataForm.path" placeholder="菜单路由"/>
       </el-form-item>
-      <el-form-item
-          label="前端组件"
-          prop="component"
-          required
-      >
+      <el-form-item label="前端组件" prop="component" required>
         <el-input v-model="dataForm.component" placeholder="前端组件"/>
       </el-form-item>
       <el-form-item
-          v-if="dataForm.type==0"
+          v-if="dataForm.type == 0"
           label="默认跳转地址"
           prop="redirect"
       >
@@ -186,9 +244,9 @@ defineExpose({acceptParam, showDialog});
         />
       </el-form-item>
     </el-form>
-    <template #footer>
+    <template v-if="!disabled" #footer>
       <el-button type="primary" @click="onSubmit(dataFormRef)">确定</el-button>
-      <el-button type="danger" @click="visible=false">取消</el-button>
+      <el-button type="danger" @click="visible = false">取消</el-button>
     </template>
   </el-dialog>
 </template>
