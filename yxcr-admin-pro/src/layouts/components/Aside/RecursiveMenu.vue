@@ -23,7 +23,10 @@ const handleClickMenu = (subItem: MenuEntry) => {
     <el-sub-menu v-if="subItem.children?.length" :index="subItem.path">
       <template #title>
         <el-icon>
-          <component v-if="subItem.meta.icon" :is="subItem.meta.icon"></component>
+          <component
+            :is="subItem.meta.icon"
+            v-if="subItem.meta.icon"
+          ></component>
         </el-icon>
         <span class="sle">{{ subItem.meta.title }}</span>
       </template>

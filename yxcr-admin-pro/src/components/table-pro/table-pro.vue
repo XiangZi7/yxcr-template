@@ -30,6 +30,7 @@ function selectionChange(e) {
 <template>
   <el-table
     ref="tableRef"
+    style="width: 100%"
     v-bind="$attrs"
     :data="props.data"
     :border="props.border"

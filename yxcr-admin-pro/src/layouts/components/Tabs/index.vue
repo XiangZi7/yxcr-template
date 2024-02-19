@@ -20,10 +20,10 @@ watch(
     if (route.meta.isFull) return;
     tabsMenuValue.value = route.fullPath;
     const tabsParams = {
-      icon: route.meta.icon,
-      title: route.meta.title,
+      icon: route.meta.icon as string,
+      title: route.meta.title as string,
       path: route.fullPath,
-      name: route.name,
+      name: route.name as string,
     };
     tabsStore.addTabs(tabsParams);
   },
@@ -31,13 +31,12 @@ watch(
 );
 
 function tabClick(tabItem: TabsPaneContext) {
-  const fullPath = tabItem.props.name;
+  const fullPath = tabItem.props.name as string;
   router.push(fullPath);
 }
 
 function tabRemove(fullPath: TabPaneName) {
-  console.log(fullPath);
-  // tabStore.removeTabs(fullPath as string, fullPath == route.fullPath);
+  tabsStore.removeTabs(fullPath as string, fullPath == route.fullPath);
 }
 </script>
 <template>
@@ -58,7 +57,7 @@ function tabRemove(fullPath: TabPaneName) {
         >
           <template #label>
             <el-icon v-show="item.icon && tabsIcon" class="tabs-icon">
-              <component :is="item.icon" />
+              <component :is="item.icon" v-if="item.icon" />
             </el-icon>
             {{ item.title }}
           </template>

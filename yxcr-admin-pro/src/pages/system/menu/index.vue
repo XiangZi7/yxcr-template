@@ -20,6 +20,7 @@ const state = reactive<MenuDataState>({
       prop: "operation",
       slot: "operation",
       label: "操作",
+      align: "center",
       fixed: "right",
       width: 250,
     },
@@ -53,9 +54,9 @@ function openDrawer(title: string, row: MenuData) {
 // 删除目录
 function deleteData(id: number) {
   systemMenuDelete(id).then(({data, code}) => {
-    messagePro(code, data)
-    ResultOk()
-  })
+    messagePro(code, data);
+    ResultOk();
+  });
 }
 
 // 更新新增或修改数据
@@ -67,12 +68,11 @@ function ResultOk() {
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-auto">
     <div class="mb-3">
       <el-button type="primary" @click="addOrUpdateRef.showDialog()"
       >新增
-      </el-button
-      >
+      </el-button>
     </div>
     <table-pro :data="list" :columns="column">
       <!--icon-->
@@ -91,25 +91,25 @@ function ResultOk() {
       </template>
       <template #operation="{ row }">
         <el-button
-            type="primary"
-            link
-            :icon="View"
-            @click="openDrawer('查看', row)"
+          type="primary"
+          link
+          :icon="View"
+          @click="openDrawer('查看', row)"
         >
           查看
         </el-button>
         <el-button
-            type="primary"
-            link
-            :icon="Edit"
-            @click="openDrawer('编辑', row)"
+          type="primary"
+          link
+          :icon="Edit"
+          @click="openDrawer('编辑', row)"
         >编辑
         </el-button>
         <el-button
-            type="primary"
-            link
-            :icon="Delete"
-            @click="deleteData(row.id)"
+          type="primary"
+          link
+          :icon="Delete"
+          @click="deleteData(row.id)"
         >删除
         </el-button>
       </template>

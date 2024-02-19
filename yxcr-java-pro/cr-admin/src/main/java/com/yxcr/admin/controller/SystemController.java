@@ -19,7 +19,6 @@ import static com.yxcr.common.utils.textUtils.getLastPartOfUrl;
 @Tag(name = "系统设置")
 @RequestMapping("/system")
 public class SystemController {
-    private static final Integer NEW_MENU_ID = -1;
 
     private final MenuService menuService;
 
@@ -30,15 +29,32 @@ public class SystemController {
         return ApiResult.ok(menuTreeTable);
     }
 
-    @PostMapping("/menu")
-    @Operation(summary = "菜单新增或更改", description = "菜单新增或更改")
-    public ApiResult<?> menu(@RequestBody Menu menu) {
+    @PostMapping("/addMenu")
+    @Operation(summary = "菜单新增", description = "菜单新增")
+    public ApiResult<?> addMenu(@RequestBody Menu menu) {
+        if (menu.getId() == -1) {
+            menu.setId(null);
+        } else {
+            menu.setParentId(menu.getId());
+            menu.setId(null);
+        }
+
         String lastName = getLastPartOfUrl(menu.getPath());
         menu.setName(lastName);
+        menuService.save(menu);
         return ApiResult.ok("新增成功");
     }
 
-    @PostMapping("/menuDelete")
+    @PostMapping("/editMenu")
+    @Operation(summary = "菜单更改", description = "菜单更改")
+    public ApiResult<?> editMenu(@RequestBody Menu menu) {
+        String lastName = getLastPartOfUrl(menu.getPath());
+        menu.setName(lastName);
+        menuService.updateById(menu);
+        return ApiResult.ok("编辑成功");
+    }
+
+    @PostMapping("/deleteMenu")
     @Operation(summary = "菜单删除", description = "菜单删除")
     public ApiResult<?> menuDelete(@RequestBody IdDTO idDTO) {
         menuService.removeByIds(idDTO.getId());
