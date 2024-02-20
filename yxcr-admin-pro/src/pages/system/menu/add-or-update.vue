@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {addMenu, editMenu, getMenuTable} from "@/api";
-import {FormInstance} from "element-plus";
+import { addMenu, editMenu, getMenuTable } from "@/api";
+import { FormInstance } from "element-plus";
 import {
   acceptParamModel,
   AddOrUpdateState,
 } from "@/pages/system/menu/interce";
-import {useCloned} from "@vueuse/core";
+import { useCloned } from "@vueuse/core";
 
 const dataFormRef = ref();
 
@@ -43,10 +43,10 @@ const state = reactive<AddOrUpdateState>({
     redirect: "",
   },
   dataRule: {
-    title: [{required: true, message: "请输入名称", trigger: "blur"}],
-    path: [{required: true, message: "请输入路由菜单路径", trigger: "blur"}],
+    title: [{ required: true, message: "请输入名称", trigger: "blur" }],
+    path: [{ required: true, message: "请输入路由菜单路径", trigger: "blur" }],
     component: [
-      {required: true, message: "请输入前端组件路径", trigger: "blur"},
+      { required: true, message: "请输入前端组件路径", trigger: "blur" },
     ],
   },
   cascaderOptions: [],
@@ -73,12 +73,11 @@ const {
 } = toRefs(state);
 const Emits = defineEmits(["ResultOk"]);
 
-
 // 接受父组件传递过来的菜单参数
 function acceptParam(params: acceptParamModel) {
-  const {cloned} = useCloned(params);
+  const { cloned } = useCloned(params);
   // 获取菜单数据
-  getMenuTable().then(({data}) => {
+  getMenuTable().then(({ data }) => {
     state.cascaderOptions = data;
   });
   if (
@@ -99,6 +98,10 @@ const currentName = computed(() => typeList[state.dataForm.type].title);
 
 // 弹出对话框
 function showDialog() {
+  // 获取菜单数据
+  getMenuTable().then(({ data }) => {
+    state.cascaderOptions = data;
+  });
   state.disabled = false;
   state.visible = true;
   state.title = "新增";
@@ -140,15 +143,18 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       if (state.dataForm.type != 0) {
         params = {
           ...state.dataForm,
-          ...(state.title === "新增" ? {id} : state.title === "编辑" ? {parentId: id} : ''),
-        }
+          ...(state.title === "新增"
+            ? { id }
+            : state.title === "编辑"
+              ? { parentId: id }
+              : ""),
+        };
       } else {
         params = {
           ...state.dataForm,
-          ...(state.title === "新增" ? {id} : ""),
+          ...(state.title === "新增" ? { id } : ""),
         };
       }
-
 
       let result; // 声明一个结果变量来储存响应
       // 使用条件运算符来选择执行添加或修改操作
@@ -170,7 +176,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     // 在这里处理错误，例如显示错误消息等
   }
 };
-defineExpose({acceptParam, showDialog});
+defineExpose({ acceptParam, showDialog });
 </script>
 <template>
   <el-dialog
@@ -227,23 +233,23 @@ defineExpose({acceptParam, showDialog});
         />
       </el-form-item>
       <el-form-item label="菜单路径" prop="path" required>
-        <el-input v-model="dataForm.path" placeholder="菜单路由"/>
+        <el-input v-model="dataForm.path" placeholder="菜单路由" />
       </el-form-item>
       <el-form-item label="前端组件" prop="component" required>
-        <el-input v-model="dataForm.component" placeholder="前端组件"/>
+        <el-input v-model="dataForm.component" placeholder="前端组件" />
       </el-form-item>
       <el-form-item
         v-if="dataForm.type == 0"
         label="默认跳转地址"
         prop="redirect"
       >
-        <el-input v-model="dataForm.redirect" placeholder="默认跳转地址"/>
+        <el-input v-model="dataForm.redirect" placeholder="默认跳转地址" />
       </el-form-item>
       <el-form-item v-if="dataForm.type != 2" label="排序号">
-        <el-input-number v-model="dataForm.orderNum"/>
+        <el-input-number v-model="dataForm.orderNum" />
       </el-form-item>
       <el-form-item v-if="dataForm.type != 2" label="图标">
-        <select-icon v-model="dataForm.icon"/>
+        <select-icon v-model="dataForm.icon" />
       </el-form-item>
       <el-form-item v-if="dataForm.type != 2" label="是否隐藏">
         <el-switch

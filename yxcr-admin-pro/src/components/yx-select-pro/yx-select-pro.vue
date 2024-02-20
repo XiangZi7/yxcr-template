@@ -22,6 +22,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  placeholder: String,
 });
 const { dict, isView } = toRefs(props);
 onMounted(() => {
@@ -31,21 +32,19 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div>
-    <div v-if="isView">
-      <el-select v-model="ModelValue">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-    </div>
-    <div v-else>
-      <span>{{ options.find((o) => o.value === ModelValue)?.label }}</span>
-    </div>
+  <div v-if="isView">
+    <el-select v-model="ModelValue" :placeholder="placeholder">
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      >
+      </el-option>
+    </el-select>
+  </div>
+  <div v-else>
+    <span>{{ options.find((o) => o.value === ModelValue)?.label }}</span>
   </div>
 </template>
 <style lang="scss" scoped></style>

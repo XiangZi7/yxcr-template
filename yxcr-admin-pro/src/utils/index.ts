@@ -71,3 +71,20 @@ export function findParentIds(data: MenuData[], childId: number): number[] {
   // 如果没有找到父级ID，返回包含单个 childId 的数组
   return parentIds.length === 0 ? [childId] : parentIds;
 }
+
+/**
+ * @description 获取浏览器默认语言
+ * @returns {String}
+ */
+export function getBrowserLang() {
+  const browserLang = navigator.language
+    ? navigator.language
+    : navigator.browserLanguage;
+  let defaultBrowserLang = "";
+  if (["cn", "zh", "zh-cn"].includes(browserLang.toLowerCase())) {
+    defaultBrowserLang = "zh";
+  } else {
+    defaultBrowserLang = "en";
+  }
+  return defaultBrowserLang;
+}

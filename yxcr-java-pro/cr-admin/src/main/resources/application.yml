@@ -68,6 +68,7 @@ yxcr:
       - /admin/**
       - /dict/**
       - /system/**
+      - /user/**
       # 文件访问路径
       - /download/**
       - /upload/**

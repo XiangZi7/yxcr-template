@@ -3,6 +3,8 @@ import "./style/index.scss";
 import App from "./App.vue";
 import router from "@/router";
 import store from "@/stores";
+// vue i18n
+import I18n from "@/languages/index";
 // element plus
 import "element-plus/dist/index.css";
 import ElementPlus from "element-plus";
@@ -15,4 +17,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(router);
 app.use(store);
 app.use(ElementPlus);
+app.use(I18n);
 app.mount("#app");

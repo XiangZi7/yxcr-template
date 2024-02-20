@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="ModelValue" @click="dialogTableVisible = true"/>
+  <el-input v-model="ModelValue" @click="dialogTableVisible = true" />
   <el-dialog v-model="dialogTableVisible" title="请选择图标" width="80%">
     <el-input
       v-model="searchIcon"
@@ -32,9 +32,9 @@
 </template>
 <script setup lang="ts">
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import {Search} from "@element-plus/icons";
+import { Search } from "@element-plus/icons";
 
-const searchIcon = ref<string>("")
+const searchIcon = ref<string>("");
 // const Emits = defineEmits(["dialogOk"]);
 const ModelValue = defineModel<string | number>();
 // dialog Icon选项
@@ -53,12 +53,18 @@ interface IconEntry {
 
 // 计算属性，用于根据搜索条件过滤图标列表
 const filteredIcons = computed(() => {
-  const icons = Object.entries(ElementPlusIconsVue).reduce<IconEntry>((acc, [key, value]) => {
-    if (!searchIcon.value || key.toLowerCase().includes(searchIcon.value.toLowerCase())) {
-      acc[key] = value;
-    }
-    return acc;
-  }, {});
+  const icons = Object.entries(ElementPlusIconsVue).reduce<IconEntry>(
+    (acc, [key, value]) => {
+      if (
+        !searchIcon.value ||
+        key.toLowerCase().includes(searchIcon.value.toLowerCase())
+      ) {
+        acc[key] = value;
+      }
+      return acc;
+    },
+    {},
+  );
 
   return icons;
 });

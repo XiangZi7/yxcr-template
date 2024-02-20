@@ -15,7 +15,6 @@ export interface MenuDataState {
   list: MenuData[];
   column: TableColumn[];
 }
-
 export interface MenuData {
   id: number;
   parentId: number | null;

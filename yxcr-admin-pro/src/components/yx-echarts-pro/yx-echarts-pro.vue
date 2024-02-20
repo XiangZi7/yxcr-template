@@ -1,21 +1,21 @@
 <template>
-  <div ref="echartRef" :style="{width: width, height: height}"></div>
+  <div ref="echartRef" :style="{ width: width, height: height }"></div>
 </template>
 
 <script setup lang="ts">
-import * as echarts from 'echarts';
+import * as echarts from "echarts";
 
 // Props
 const props = defineProps({
   option: Object,
   width: {
     type: String,
-    default: '600px'
+    default: "600px",
   },
   height: {
     type: String,
-    default: '400px'
-  }
+    default: "400px",
+  },
 });
 
 // EChart 的 DOM 引用
@@ -40,7 +40,7 @@ watch(
       chartInstance.setOption(newOption);
     }
   },
-  { deep: true }
+  { deep: true },
 );
 
 // 组件卸载时释放 ECharts 实例
