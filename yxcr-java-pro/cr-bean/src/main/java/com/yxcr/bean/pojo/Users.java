@@ -25,6 +25,10 @@ public class Users implements Serializable {
      * 用户名
      */
     private String username;
+    /**
+     * 头像
+     */
+    private String avatar;
 
     /**
      * 用户密码
@@ -40,6 +44,12 @@ public class Users implements Serializable {
      * 用户手机号码
      */
     private String phone;
+
+    /**
+     * 用户角色id
+     */
+    @TableField(exist = false)
+    private Integer roleId;
 
     /**
      * 用户状态，1为启用，0为禁用

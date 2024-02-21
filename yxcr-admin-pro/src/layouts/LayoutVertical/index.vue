@@ -19,7 +19,7 @@ const activeMenu = computed(
 // 手风琴模式
 const accordion = computed(() => themeStore.accordion);
 // 菜单栏
-const MenuBar = computed(() => auth.authMenuList);
+const MenuBar = computed(() => auth.showMenuListGet);
 </script>
 <template>
   <el-container class="w-full h-full" style="min-width: 600px">

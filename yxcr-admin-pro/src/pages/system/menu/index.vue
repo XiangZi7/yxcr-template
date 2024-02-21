@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AddOrUpdate from "./add-or-update.vue";
-import { getMenuTable, systemMenuDelete } from "@/api";
+import { getMenuTable, systemMenuDelete } from "@/api/modules/Menu";
 import { MenuData, MenuDataState } from "@/api/interface";
 import { Delete, View, Edit } from "@element-plus/icons";
 

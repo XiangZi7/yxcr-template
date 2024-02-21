@@ -41,6 +41,7 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vue": "^3.3.11",
+    "vue-cropper": "^1.1.1",
     "vue-i18n": "^9.9.1",
     "vue-router": "^4.2.5"
   },
@@ -50,7 +51,6 @@
     "@typescript-eslint/parser": "^6.20.0",
     "@vitejs/plugin-vue": "^4.5.2",
     "@vue/eslint-config-prettier": "^9.0.0",
-    "add": "^2.0.6",
     "eslint-plugin-vue": "^9.21.1",
     "prettier": "^3.1.1",
     "typescript": "^5.2.2",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { addMenu, editMenu, getMenuTable } from "@/api";
+import { addMenu, editMenu, getMenuTable } from "@/api/modules/Menu";
 import { FormInstance } from "element-plus";
 import {
   acceptParamModel,
@@ -257,8 +257,8 @@ defineExpose({ acceptParam, showDialog });
           inline-prompt
           active-text="是"
           inactive-text="否"
-          :active-value="1"
-          :inactive-value="0"
+          :active-value="0"
+          :inactive-value="1"
         />
       </el-form-item>
       <el-form-item v-if="dataForm.type != 2" label="是否缓存路由">

@@ -5,6 +5,7 @@ export interface MenuEntry {
   meta: {
     title: string;
     icon: string;
+    visible: number;
   };
   children?: MenuEntry[]; // 可选，表示这个菜单项可能有子菜单项
 }

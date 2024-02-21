@@ -32,7 +32,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div v-if="isView">
+  <div v-if="isView" class="w-full">
     <el-select v-model="ModelValue" :placeholder="placeholder">
       <el-option
         v-for="item in options"

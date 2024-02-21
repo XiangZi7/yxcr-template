@@ -3,7 +3,7 @@ import mittBus from "@/utils/mittBus";
 import { Avatar } from "@element-plus/icons";
 import { useFullscreen } from "@vueuse/core";
 const { toggle } = useFullscreen();
-
+const router = useRouter();
 // const state = reactive({
 //   list: [],
 // })
@@ -38,7 +38,7 @@ const openDrawer = () => {
       />
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>
+          <el-dropdown-item @click="router.push({ path: '/account/center' })">
             <el-icon>
               <Avatar />
             </el-icon>

@@ -26,7 +26,9 @@ export function getFlatMenuList(
 export const getAllBreadcrumbList = (
   menuList: Menu.MenuOptions[],
   parent = [],
-  result: { [key: string]: any } = {},
+  result: {
+    [key: string]: any;
+  } = {},
 ) => {
   for (const item of menuList) {
     result[item.path] = [...parent, item];
@@ -43,7 +45,9 @@ export const getAllBreadcrumbList = (
  */
 export function findParentIds(data: MenuData[], childId: number): number[] {
   // 显式地定义映射表的类型，其中数字键映射到 `Node`
-  const idToNodeMap: { [key: number]: MenuData } = {};
+  const idToNodeMap: {
+    [key: number]: MenuData;
+  } = {};
 
   // 一个递归函数，用于填充ID到节点的映射表
   function fillIdToNodeMap(node: MenuData) {
@@ -70,6 +74,19 @@ export function findParentIds(data: MenuData[], childId: number): number[] {
 
   // 如果没有找到父级ID，返回包含单个 childId 的数组
   return parentIds.length === 0 ? [childId] : parentIds;
+}
+
+/**
+ * @description 使用递归过滤出需要渲染在左侧菜单的列表 (需剔除 isHide == true 的菜单)
+ * @param {Array} menuList 菜单列表
+ * @returns {Array}
+ * */
+export function getShowMenuList(menuList) {
+  const newMenuList: Menu.MenuOptions[] = JSON.parse(JSON.stringify(menuList));
+  return newMenuList.filter((item) => {
+    item.children?.length && (item.children = getShowMenuList(item.children));
+    return item.meta?.visible != 0;
+  });
 }
 
 /**

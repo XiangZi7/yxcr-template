@@ -12,3 +12,12 @@ spring:
       host: 127.0.0.1
       port: 6379
       database: 1
+  # MinIO连接信息
+minio:
+  access-key: HhoPRE75GRPYytJkw0tK
+  secret-key: uqX7Dy4qPQgLLsiPj6GfT0nqqdTxyKurckLgwx9g
+  endpoint:  http://127.0.0.1:9000
+  bucket: minioserverfile
+  size: 1
+  # 禁止上传的文件
+  not-support-file-type: js,html,htm,shtml,php,css,java,sh,bat,xml

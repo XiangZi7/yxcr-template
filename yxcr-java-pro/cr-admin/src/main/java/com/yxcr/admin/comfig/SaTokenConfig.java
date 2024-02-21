@@ -16,8 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
-public class saTokenConfig implements WebMvcConfigurer {
-    private final Logger logger = LoggerFactory.getLogger(saTokenConfig.class);
+public class SaTokenConfig implements WebMvcConfigurer {
+    private final Logger logger = LoggerFactory.getLogger(SaTokenConfig.class);
 
     @Resource
     private SatokenProperties satokenProperties;

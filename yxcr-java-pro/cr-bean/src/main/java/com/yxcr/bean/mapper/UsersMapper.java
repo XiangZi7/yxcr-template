@@ -17,7 +17,10 @@ import java.util.List;
  */
 public interface UsersMapper extends BaseMapper<Users> {
 
+//    用户列表
     IPage<UserDto> userList(IPage<UserDto> page, @Param("params") UserListDto params);
+//    重置用户密码
+    int RefreshPwd(@Param("id") Integer id);
 }
 
 

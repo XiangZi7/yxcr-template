@@ -31,7 +31,8 @@
         u.create_time,
         u.update_time,
         u.is_delete,
-        r.name AS role_name
+        r.name AS role_name,
+        r.id as role_id
         FROM yx_sys_users u
         LEFT JOIN yx_sys_user_roles user_roles ON u.id = user_roles.user_id
         LEFT JOIN yx_sys_roles r ON user_roles.role_id = r.id
@@ -49,4 +50,9 @@
             and roleName = #{params.roleName}
         </if>
     </select>
+    <update id="RefreshPwd">
+        update yx_sys_users
+        set password = 666666
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
 </mapper>

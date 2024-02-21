@@ -16,4 +16,5 @@ public class UserDto {
     private Date updateTime;
     private Boolean isDelete;
     private String roleName; // 用户的角色名称
+    private Integer roleId; // 用户的角色id
 }
