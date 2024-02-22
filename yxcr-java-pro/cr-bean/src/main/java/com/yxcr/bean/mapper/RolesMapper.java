@@ -1,6 +1,10 @@
 package com.yxcr.bean.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.yxcr.bean.dto.RoleListDto;
 import com.yxcr.bean.dto.RoleMenuDto;
+import com.yxcr.bean.dto.UserDto;
+import com.yxcr.bean.dto.UserListDto;
 import com.yxcr.bean.pojo.Roles;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,6 +20,9 @@ import java.util.List;
 public interface RolesMapper extends BaseMapper<Roles> {
     // 定义获取角色和对应菜单ID列表的方法
     RoleMenuDto selectRoleWithMenus(@Param("roleId") Integer roleId);
+
+//    查询角色全部数据
+    IPage<Roles> selectRoleAll(IPage<UserDto> page, @Param("params") Roles params);
 }
 
 

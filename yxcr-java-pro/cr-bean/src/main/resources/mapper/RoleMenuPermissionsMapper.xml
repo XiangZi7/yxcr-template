@@ -18,4 +18,9 @@
         from yx_sys_role_menu_permissions
         where role_id = #{roleId,jdbcType=NUMERIC}
     </delete>
+    <select id="selectMenuIdByRoleId" resultType="java.lang.Integer">
+        select menu_id
+        from yx_sys_role_menu_permissions
+        where role_id = #{roleId,jdbcType=NUMERIC}
+    </select>
 </mapper>

@@ -105,3 +105,25 @@ export function getBrowserLang() {
   }
   return defaultBrowserLang;
 }
+
+
+/**
+ * 菜单数组转换为菜单树
+ * @param items
+ */
+export function arrayToTree(items) {
+  const rootItems = items.filter(item => item.parentId === null); // 找到所有顶级节点
+
+  const findChildren = (parent) => {
+    parent.children = items.filter(item => item.parentId === parent.id); // 找子节点
+    if (parent.children.length) {
+      parent.children.forEach(findChildren); // 递归找更深层的子节点
+    } else {
+      delete parent.children; // 如果没有子节点，则删除children属性
+    }
+  };
+
+  rootItems.forEach(findChildren); // 初始化遍历根节点，递归建立树结构
+
+  return rootItems;
+}

@@ -2,6 +2,7 @@ package com.yxcr.bean.mapper;
 
 import com.yxcr.bean.pojo.UserRoles;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author Administrator
@@ -11,6 +12,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface UserRolesMapper extends BaseMapper<UserRoles> {
 
+    //    检查用户是否管理员
+    int checkIfUserIsAdmin(@Param("id") Integer id);
 }
 
 

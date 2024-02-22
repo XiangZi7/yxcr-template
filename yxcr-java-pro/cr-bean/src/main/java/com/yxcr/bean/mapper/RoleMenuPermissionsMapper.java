@@ -1,4 +1,5 @@
 package com.yxcr.bean.mapper;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yxcr.bean.pojo.RoleMenuPermissions;
@@ -12,6 +13,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface RoleMenuPermissionsMapper extends BaseMapper<RoleMenuPermissions> {
     int deleteByRoleId(@Param("roleId") Integer roleId);
+
+    //当前角色已有的权限
+    List<Integer> selectMenuIdByRoleId(@Param("roleId") Integer roleId);
 }
 
 

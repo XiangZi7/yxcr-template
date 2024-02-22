@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { AuthState } from "@/stores/interface";
-import { getAuthMenuListApi } from "@/api/modules/Menu";
+import { getAuthMenuListApi } from "@/api/modules/System";
 
 export const useAuthStore = defineStore({
   id: "useAuthStore",

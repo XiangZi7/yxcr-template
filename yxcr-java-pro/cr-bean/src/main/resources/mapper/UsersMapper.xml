@@ -55,4 +55,19 @@
         set password = 666666
         where id = #{id,jdbcType=NUMERIC}
     </update>
+
+    <!-- 用户登录查询 -->
+    <select id="selectUserByLogin" resultType="com.yxcr.bean.pojo.Users">
+        SELECT * FROM yx_sys_users
+        WHERE username = #{phone} AND password = #{password}
+          AND status = '1' AND is_delete = '0'
+    </select>
+
+
+    <!-- 查询手机号是否已经注册 -->
+    <select id="selectCountByPhone" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM yx_sys_users
+        WHERE phone = #{phone}
+    </select>
 </mapper>

@@ -28,4 +28,13 @@
         WHERE roles.id = #{roleId}
         GROUP BY roles.id
     </select>
+    <select id="selectRoleAll" resultType="com.yxcr.bean.pojo.Roles">
+        select
+        <include refid="Base_Column_List"/>
+        from yx_sys_roles
+        where 1=1
+        <if test="params.name != null and params.name != ''">
+            and name LIKE concat('%',#{params.name},'%')
+        </if>
+    </select>
 </mapper>

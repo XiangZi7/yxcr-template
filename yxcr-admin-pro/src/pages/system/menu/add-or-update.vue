@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { addMenu, editMenu, getMenuTable } from "@/api/modules/Menu";
+import { addMenu, editMenu, getMenuTable } from "@/api/modules/System";
 import { FormInstance } from "element-plus";
 import {
   acceptParamModel,

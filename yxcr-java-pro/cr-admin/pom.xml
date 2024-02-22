@@ -21,11 +21,7 @@
             <artifactId>cr-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot3-starter</artifactId>
-            <version>${satoken.version}</version>
-        </dependency>
+
     </dependencies>
 
     <build>
