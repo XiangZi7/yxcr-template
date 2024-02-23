@@ -26,9 +26,11 @@ export interface StateType {
 }
 
 export interface userModel {
-  avatarUrl?: string;
-  nickname?: string;
-  userId?: number;
+  username?: string;
+  token?: string;
+  id?: number;
+  email?: string;
+  avatar?: string;
 }
 
 /**
@@ -36,7 +38,6 @@ export interface userModel {
  */
 export interface UserState {
   userInfo: userModel;
-  token: string;
 }
 
 /**

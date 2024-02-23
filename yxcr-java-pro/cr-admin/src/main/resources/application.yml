@@ -69,6 +69,8 @@ yxcr:
       - /dict/**
       - /system/**
       - /user/**
+      - /gen
+      - /check
       # 文件访问路径
       - /download/**
       - /upload/**

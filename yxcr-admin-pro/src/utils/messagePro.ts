@@ -5,10 +5,10 @@ import { ElNotification } from "element-plus";
  * @param code 请求码
  * @param message 信息
  */
-export const messagePro = (code: number, data: any) => {
+export const messagePro = (code: number, data: string, message?: string) => {
   ElNotification({
     type: code == 200 ? "success" : "error",
-    message: data,
+    message: data || message,
     title: getTimeState(),
   });
 };

@@ -1,33 +1,43 @@
 <script setup>
-import {Gdata} from './data.ts'
+import { Gdata } from "./data.ts";
 </script>
 <template>
   <div>
     <div class="bgs rounded-lg shadow-lg mb-6">
       <div class="text-center p-2 mt-2">
         <img
-            class="w-24 h-24 rounded-full mx-auto"
-            src="@/assets/2.png"
-            alt="Profile"
+          class="w-24 h-24 rounded-full mx-auto"
+          src="@/assets/2.png"
+          alt="Profile"
         />
         <h1 class="text-lg text-gray-900">张三</h1>
         <p class="text-gray-600">前端开发工程师 | 爱好者</p>
       </div>
     </div>
     <div class="container">
-      <a :href="item.url" target="_blank" class="flex justify-center items-center" v-for="item in Gdata" :key="item.cover">
+      <a
+        v-for="item in Gdata"
+        :key="item.cover"
+        :href="item.url"
+        target="_blank"
+        class="flex justify-center items-center"
+      >
         <div class="card max-w-sm mx-auto bg-white rounded-lg shadow-md">
           <img
-              :src="item.cover"
-              :alt="item.title" class="w-full h-64 object-cover rounded-t-lg">
+            :src="item.cover"
+            :alt="item.title"
+            class="w-full h-64 object-cover rounded-t-lg"
+          />
           <div class="px-4">
             <h5 class="text-lg font-semibold my-4">{{ item.title }}</h5>
-            <p class="text-sm text-gray-600 mt-1 line-clamp">{{ item.describe }}</p>
+            <p class="text-sm text-gray-600 mt-1 line-clamp">
+              {{ item.describe }}
+            </p>
           </div>
           <div class="card-overlay hidden">
             <div class="text-center cursor-pointer">
               <p class="text-xl font-semibold flex items-center gap-2">
-                <component :is="item.icon"/>
+                <component :is="item.icon" />
                 {{ item.overlayTitle }}
               </p>
               <p class="text-md">
@@ -78,7 +88,9 @@ import {Gdata} from './data.ts'
 }
 
 .card-overlay {
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    visibility 0.5s ease;
   opacity: 0;
   visibility: hidden;
   position: absolute;

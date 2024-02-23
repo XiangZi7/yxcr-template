@@ -21,3 +21,22 @@ minio:
   size: 1
   # 禁止上传的文件
   not-support-file-type: js,html,htm,shtml,php,css,java,sh,bat,xml
+
+kaptcha:
+  height: 50
+  width: 200
+  content:
+    length: 4
+    source: abcdefghjklmnopqrstuvwxyz23456789
+    space: 2
+  font:
+    color: black
+    name: Arial
+    size: 40
+  background-color:
+    from: lightGray
+    to: white
+  border:
+    enabled: true
+    color: black
+    thickness: 1

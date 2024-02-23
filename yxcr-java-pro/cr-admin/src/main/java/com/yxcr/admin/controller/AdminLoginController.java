@@ -5,6 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.yxcr.admin.utils.MenuUtils;
 import com.yxcr.bean.dto.MenuDto;
 import com.yxcr.bean.dto.RoleMenuDto;
+import com.yxcr.bean.dto.adminLoginDto;
 import com.yxcr.bean.mapper.RoleMenuPermissionsMapper;
 import com.yxcr.bean.pojo.Menu;
 import com.yxcr.bean.pojo.RoleMenuPermissions;
@@ -14,7 +15,9 @@ import com.yxcr.bean.service.MenuService;
 import com.yxcr.bean.service.RoleMenuPermissionsService;
 import com.yxcr.bean.service.RolesService;
 import com.yxcr.bean.service.UsersService;
+import com.yxcr.bean.vo.adminLoginVO;
 import com.yxcr.common.model.ApiResult;
+import com.yxcr.common.model.NotLogException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -43,16 +46,12 @@ public class AdminLoginController {
     private RoleMenuPermissionsMapper roleMenuPermissionsMapper;
 
 
-    @GetMapping("/adminLogin")
-    @Operation(summary = "账号密码 + 验证码登录(用于后台登录)", description = "通过账号/手机号/用户名密码登录")
-    public ApiResult<?> login(String name, String pwd) {
+    @PostMapping("/login")
+    @Operation(summary = "手机号码+密码 (用于后台登录)", description = "通过手机号/密码登录")
+    public ApiResult<?> login(@RequestBody adminLoginDto adminLoginDto) throws NotLogException {
 
-        // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
-        if ("zhang".equals(name) && "123456".equals(pwd)) {
-            StpUtil.login(pwd);
-            return ApiResult.ok(StpUtil.getTokenValue());
-        }
-        return ApiResult.error("登录失败");
+        adminLoginVO adminLoginVO = usersService.adminLogin(adminLoginDto.getPhone(), adminLoginDto.getPassword());
+        return ApiResult.ok(adminLoginVO);
     }
 
     @SaCheckPermission("user:add")
@@ -71,7 +70,7 @@ public class AdminLoginController {
         return ApiResult.ok(map);
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ApiResult<?> logout() {
         StpUtil.logout();
         return ApiResult.ok("退出成功");

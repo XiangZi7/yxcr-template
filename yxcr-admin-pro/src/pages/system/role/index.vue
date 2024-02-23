@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import AddOrUpdate from "./add-or-update.vue";
-import {Delete, EditPen, View, Refresh} from "@element-plus/icons-vue";
-import {
-  addRole,
-  editRole,
-  deleteRole
-} from "@/api/modules/System";
-import {RoleList} from "@/api/modules/System"
+import { Delete, EditPen, View, Refresh } from "@element-plus/icons-vue";
+import { addRole, editRole, deleteRole } from "@/api/modules/System";
+import { RoleList } from "@/api/modules/System";
 
 const addOrUpdateRef = ref();
 const userListTableRef = ref();
@@ -23,7 +19,7 @@ const {
 } = useUserListPagination(RoleList);
 
 // 操作确认hook
-const {confirmAndExecute} = useConfirmAction();
+const { confirmAndExecute } = useConfirmAction();
 
 onMounted(() => {
   fetchData();
@@ -45,7 +41,7 @@ function openDrawer(title: string, row) {
   const params = {
     title,
     isView: title === "查看",
-    dataForm: {...row},
+    dataForm: { ...row },
     api: title === "新增" ? addRole : title === "编辑" ? editRole : undefined,
   };
   addOrUpdateRef.value?.acceptParams(params);
@@ -100,16 +96,16 @@ function ResultOk() {
   <div>
     <!--搜索-->
     <el-form
-        :inline="true"
-        :model="formInline"
-        class="demo-form-inline"
-        label-width="auto"
+      :inline="true"
+      :model="formInline"
+      class="demo-form-inline"
+      label-width="auto"
     >
       <el-form-item label="角色名称">
         <el-input
-            v-model="formInline.name"
-            placeholder="请输入角色名称"
-            clearable
+          v-model="formInline.name"
+          placeholder="请输入角色名称"
+          clearable
         />
       </el-form-item>
       <el-form-item>
@@ -122,66 +118,66 @@ function ResultOk() {
       <div>
         <el-button type="primary" @click="openDrawer('新增')">新增</el-button>
         <el-button
-            type="primary"
-            :disabled="batchDelete"
-            @click="handleBatchDelete"
-        >批量删除
+          type="primary"
+          :disabled="batchDelete"
+          @click="handleBatchDelete"
+          >批量删除
         </el-button>
       </div>
       <div>
-        <el-button :icon="Refresh" circle @click="getTableList"/>
+        <el-button :icon="Refresh" circle @click="getTableList" />
       </div>
     </div>
     <div>
       <!-- 主表 -->
       <el-table
-          ref="userListTableRef"
-          row-key="id"
-          :data="tableData"
-          @selection-change="onSelectSome"
+        ref="userListTableRef"
+        row-key="id"
+        :data="tableData"
+        @selection-change="onSelectSome"
       >
-        <el-table-column type="selection" width="55"/>
-        <el-table-column prop="name" label="角色名称" width="180"/>
-        <el-table-column prop="description" label="描述"/>
-        <el-table-column prop="createTime" label="创建时间"/>
-        <el-table-column prop="updateTime" label="更新时间"/>
+        <el-table-column type="selection" width="55" />
+        <el-table-column prop="name" label="角色名称" width="180" />
+        <el-table-column prop="description" label="描述" />
+        <el-table-column prop="createTime" label="创建时间" />
+        <el-table-column prop="updateTime" label="更新时间" />
         <el-table-column label="操作" fixed="right" align="center" width="310">
           <template #default="{ row }">
             <el-button
-                type="primary"
-                link
-                :icon="View"
-                @click="openDrawer('查看', row)"
-            >查看
+              type="primary"
+              link
+              :icon="View"
+              @click="openDrawer('查看', row)"
+              >查看
             </el-button>
             <el-button
-                type="primary"
-                link
-                :icon="EditPen"
-                @click="openDrawer('编辑', row)"
-            >编辑
+              type="primary"
+              link
+              :icon="EditPen"
+              @click="openDrawer('编辑', row)"
+              >编辑
             </el-button>
             <el-button
-                type="primary"
-                link
-                :icon="Delete"
-                @click="deleteAccount(row)"
-            >删除
+              type="primary"
+              link
+              :icon="Delete"
+              @click="deleteAccount(row)"
+              >删除
             </el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
-          class="justify-end mt-3"
-          :current-page="currentPage"
-          :page-size="pageSize"
-          :page-sizes="[10, 25, 50, 100]"
-          :total="pageTotal"
-          layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
+        class="justify-end mt-3"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :page-sizes="[10, 25, 50, 100]"
+        :total="pageTotal"
+        layout="total, sizes, prev, pager, next, jumper"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
       />
     </div>
-    <add-or-update ref="addOrUpdateRef" @result-ok="ResultOk"/>
+    <add-or-update ref="addOrUpdateRef" @result-ok="ResultOk" />
   </div>
 </template>

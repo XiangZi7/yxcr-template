@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
 public interface UserRolesMapper extends BaseMapper<UserRoles> {
 
     //    检查用户是否管理员
-    int checkIfUserIsAdmin(@Param("id") Integer id);
+    int checkIfUserIsAdmin(@Param("userId") Integer userId);
 }
 
 

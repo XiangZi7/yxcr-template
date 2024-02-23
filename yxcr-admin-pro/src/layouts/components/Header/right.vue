@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import mittBus from "@/utils/mittBus";
+import { adminLogout } from "@/api/modules/login";
 import { Avatar } from "@element-plus/icons";
 import { useFullscreen } from "@vueuse/core";
+
 const { toggle } = useFullscreen();
 const router = useRouter();
+const userStore = useUserStore();
 // const state = reactive({
 //   list: [],
 // })
@@ -13,6 +16,15 @@ const router = useRouter();
 const openDrawer = () => {
   mittBus.emit("openThemeDrawer");
 };
+
+function logout() {
+  adminLogout().then(({ code }) => {
+    if (code == 200) {
+      userStore.setUserInfo({});
+      router.replace({ path: "/login" });
+    }
+  });
+}
 </script>
 <template>
   <div class="flex gap-3 items-center">
@@ -44,7 +56,7 @@ const openDrawer = () => {
             </el-icon>
             个人中心
           </el-dropdown-item>
-          <el-dropdown-item>
+          <el-dropdown-item @click="logout">
             <el-icon>
               <switch-button />
             </el-icon>
