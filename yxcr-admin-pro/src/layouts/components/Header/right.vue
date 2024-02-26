@@ -42,7 +42,7 @@ function logout() {
     </el-icon>
 
     <!--    <i-icon-park-solid:clothes-turtleneck @click="openDrawer"/>-->
-    <span>yxcr</span>
+    <span>{{ userStore.userInfo.username }}</span>
     <!--头像-->
     <el-dropdown>
       <el-avatar

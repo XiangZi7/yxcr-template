@@ -22,11 +22,3 @@ export declare namespace Menu {
     isKeepAlive: boolean;
   }
 }
-
-// idList
-export interface Node {
-  id: number;
-  parentId: number | null;
-  title?: string;
-  children?: Node[];
-}

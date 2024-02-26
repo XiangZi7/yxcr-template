@@ -20,9 +20,9 @@ export const systemMenuDelete = (id: number) =>
 
 // 角色
 export const RoleList = () => httpGet<ResultData>(`system/roleList`);
-export const addRole = (params) =>
+export const addRole = (params: any) =>
   httpPost<ResultData>(`system/addRole`, params);
-export const editRole = (params) =>
+export const editRole = (params: any) =>
   httpPost<ResultData>(`system/editRole`, params);
 export const deleteRole = (ids: number[]) =>
   httpPost<ResultData>(`system/deleteRole`, { id: ids });

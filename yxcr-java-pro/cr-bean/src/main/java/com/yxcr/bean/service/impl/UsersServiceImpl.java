@@ -29,7 +29,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users>
     public adminLoginVO adminLogin(String phone, String password) throws NotLogException {
         Users users = usersMapper.selectUserByLogin(phone, password);
 
-        System.out.println("users=>>>" + users);
+        System.out.println("users=>>" + users);
         if (users == null) {
             throw new NotLogException("电话号码或密码错误");
         } else {
@@ -47,6 +47,8 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users>
             adminLoginVO.setEmail(users.getEmail());
             adminLoginVO.setId(users.getId());
             adminLoginVO.setToken(StpUtil.getTokenValue());
+            adminLoginVO.setRoleId(users.getRoleId());
+            StpUtil.getSession().set("user", adminLoginVO);
             return adminLoginVO;
         }
     }

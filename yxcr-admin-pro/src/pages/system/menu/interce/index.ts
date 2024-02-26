@@ -1,19 +1,5 @@
 import { MenuData } from "@/api/interface";
 
-export interface FormSchema {
-  type: number;
-  visible: number;
-  orderNum: number;
-  icon?: string;
-  path: string;
-  permission?: string;
-  name: string;
-  title: string;
-  component: string;
-  redirect?: string;
-  isKeepAlive: number;
-}
-
 interface FormRules {
   [key: string]: Array<{ required: boolean; message: string; trigger: string }>;
 }

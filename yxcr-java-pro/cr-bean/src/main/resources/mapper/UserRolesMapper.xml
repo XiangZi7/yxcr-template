@@ -17,6 +17,6 @@
     <select id="checkIfUserIsAdmin" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM yx_sys_user_roles
-        WHERE user_id = #{userId} AND role_id = 1
+        WHERE user_id = #{userId} AND role_id in(1,2,3)
     </select>
 </mapper>

@@ -19,8 +19,14 @@ const instance: AxiosInstance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
   (config: CustomAxiosRequestConfig) => {
+    const userStore = useUserStore();
     // 开启进度条
     NProgress.start();
+    // 检查token
+    const token = userStore.userInfo.token;
+    if (token != undefined && token != "") {
+      config.headers.Authorization = token;
+    }
     return config;
   },
   (error): Promise<any> => Promise.reject(error),

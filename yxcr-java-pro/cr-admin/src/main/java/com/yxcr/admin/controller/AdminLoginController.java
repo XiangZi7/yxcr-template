@@ -1,11 +1,13 @@
 package com.yxcr.admin.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import com.yxcr.admin.utils.MenuUtils;
 import com.yxcr.bean.dto.MenuDto;
 import com.yxcr.bean.dto.RoleMenuDto;
 import com.yxcr.bean.dto.adminLoginDto;
+import com.yxcr.bean.mapper.MenuMapper;
 import com.yxcr.bean.mapper.RoleMenuPermissionsMapper;
 import com.yxcr.bean.pojo.Menu;
 import com.yxcr.bean.pojo.RoleMenuPermissions;
@@ -39,6 +41,8 @@ public class AdminLoginController {
     private final RolesService rolesService;
 
     private final MenuService menuService;
+    @Resource
+    private MenuMapper menuMapper;
 
     private final RoleMenuPermissionsService roleMenuPermissionsService;
 
@@ -51,6 +55,7 @@ public class AdminLoginController {
     public ApiResult<?> login(@RequestBody adminLoginDto adminLoginDto) throws NotLogException {
 
         adminLoginVO adminLoginVO = usersService.adminLogin(adminLoginDto.getPhone(), adminLoginDto.getPassword());
+
         return ApiResult.ok(adminLoginVO);
     }
 
@@ -78,27 +83,10 @@ public class AdminLoginController {
 
     @GetMapping("/permission")
     public ApiResult<?> permission() {
-        List<MenuDto> menuTree = MenuUtils.getMenuTree(menuService.list());
+        adminLoginVO user = (adminLoginVO) StpUtil.getSession().get("user");
+
+        List<Menu> menus = menuMapper.selectMenuWithPermissions(user.getRoleId());
+        List<MenuDto> menuTree = MenuUtils.getMenuTree(menus);
         return ApiResult.ok(menuTree);
-    }
-
-    @GetMapping("/userPermission")
-    public ApiResult<?> userPermission(int roleId) {
-        RoleMenuDto roleWithMenus = rolesService.getRoleWithMenus(roleId);
-        return ApiResult.ok(roleWithMenus);
-    }
-
-    @PostMapping("/updateRole")
-    public ApiResult<?> updateRole(@RequestBody RoleMenuDto roleMenuDto) {
-        //清除旧的权限
-        roleMenuPermissionsService.removeById(roleMenuDto.getRoleId());
-        //新增新的权限
-        roleMenuDto.getMenuList().stream().forEach(item -> {
-            RoleMenuPermissions menuPermissions = new RoleMenuPermissions();
-            menuPermissions.setMenuId(item);
-            menuPermissions.setRoleId(roleMenuDto.getRoleId());
-            roleMenuPermissionsService.save(menuPermissions);
-        });
-        return ApiResult.ok(true);
     }
 }

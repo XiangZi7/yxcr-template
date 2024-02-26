@@ -29,13 +29,7 @@ public class RolesServiceImpl extends ServiceImpl<RolesMapper, Roles>
     @Override
     public RoleMenuDto getRoleWithMenus(Integer roleId) {
         RoleMenuDto roleMenuDto = roleMenuMapper.selectRoleWithMenus(roleId);
-        if (roleMenuDto.getMenuLists() != null) {
-            List<Integer> menuList = Arrays.stream(roleMenuDto.getMenuLists().split(","))
-                    .map(Integer::valueOf)
-                    .collect(Collectors.toList());
-            roleMenuDto.setMenuList(menuList);
-            System.out.println("menuList=>>>" + menuList);
-        }
+
         return roleMenuDto;
     }
 }

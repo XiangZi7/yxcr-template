@@ -32,6 +32,25 @@ export interface MenuData {
   redirect: string;
 }
 
+export interface MenuDataCL {
+  id: number;
+  meta: {
+    icon: string;
+    parentId: number | null;
+    type: number;
+    orderNum: number;
+    visible: number;
+    permission: string;
+    isKeepAlive: number;
+  };
+  children?: MenuDataCL[];
+  title: string;
+  path: string;
+  name: string;
+  component: string;
+  redirect: string;
+}
+
 // TableColumn 类型定义
 export interface TableColumn {
   prop?: string;

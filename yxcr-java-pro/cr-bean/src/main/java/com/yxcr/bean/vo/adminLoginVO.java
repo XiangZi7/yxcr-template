@@ -1,5 +1,6 @@
 package com.yxcr.bean.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
@@ -9,4 +10,6 @@ public class adminLoginVO {
     private String username;
     private String avatar;
     private String email;
+    @JsonIgnore
+    private Integer roleId;
 }

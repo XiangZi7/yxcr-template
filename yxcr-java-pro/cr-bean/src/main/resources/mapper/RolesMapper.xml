@@ -28,6 +28,7 @@
         WHERE roles.id = #{roleId}
         GROUP BY roles.id
     </select>
+
     <select id="selectRoleAll" resultType="com.yxcr.bean.pojo.Roles">
         select
         <include refid="Base_Column_List"/>

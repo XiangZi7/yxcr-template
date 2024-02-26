@@ -60,8 +60,9 @@
     <select id="selectUserByLogin" resultType="com.yxcr.bean.pojo.Users">
         SELECT *
         FROM yx_sys_users
+                 JOIN yx_sys_user_roles ON yx_sys_user_roles.user_id = yx_sys_users.id
         WHERE phone = #{phone}
-          AND password = #{password}
+          AND PASSWORD = #{password}
           AND is_delete = '0'
     </select>
 
